@@ -1,0 +1,29 @@
+//Calculates asset depreciation based on declining balance
+      //hide previous results if any
+      this.showResults = false;
+      //This is the historical cost of the fixed asset. The value is being supplied by the user.
+        var purchasePrice = this.reducingbal.purchase_price;
+        //The number of years the asset will be useful to the business. Its the lifespan of the asset in the operational business. The vulue is being supplied by the user.
+        var usefulYears = this.reducingbal.useful_years;
+        //is calculated by dividing 100% with asset useful years.
+        var rate = (100/usefulYears);
+        //Then the rate is doubled
+
+      var doubleDepreciationRate = rate*2;
+      var depAmount = [];  //This array holds depraciated amount each year. i.e current book value-current depreciated amount
+
+      var writenDownValue = []; //This array holds the current book value in each depreciation iteration
+          
+      //The for loop calaculates the depreciation in each year depending on the number of useful years and stores current depreciated amount in the depAmount array and the current writen down amount (book value) in the writenDownValue array.
+      for(var i=usefulYears+1;i>1;i-=1)
+      {
+       writenDownValue.push(purchasePrice-=(doubleDepreciationRate/100)*purchasePrice);
+       depAmount.push(purchasePrice-writenDownValue[i]);
+
+                 
+      }
+               //Assigns the results on data variable
+               //this.reducingBalProjection =depAmount;
+               this.showReducingBalProjection = true;
+               console.log(writenDownValue);
+               console.log(depAmount);

@@ -1,0 +1,42 @@
+(function() {
+  // A table row
+  const Row = (nr, start, apdr) => ({
+    year: nr,
+    startValue: start,
+    depExpense: start * apdr,
+    endValue: start - (start * apdr)
+  })
+
+  // The calculation
+  const decliningBalanceDepreciation = multiplier => (
+    startValue,
+    endValue,
+    years
+  ) => {
+    const valueDecrease = startValue - endValue;
+    // Applicable Percentage Depreciation Rate
+    const apdr = (valueDecrease / years) / valueDecrease * multiplier;
+
+    const rows = [
+      Row(1, startValue, apdr)
+    ];
+
+    for (let i = 1; i < years; i += 1) {
+      rows.push(
+        Row(i + 1, last(rows).endValue, apdr)
+      )
+    }
+    
+    return rows;
+  };
+  
+  const dblDecBalDep = decliningBalanceDepreciation(2);
+  
+  console.log(
+    dblDecBalDep(25000, 0, 5)
+  );
+
+
+  function last(arr) { return arr[arr.length - 1]; }
+
+}())
