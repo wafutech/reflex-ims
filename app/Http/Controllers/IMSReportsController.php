@@ -16,6 +16,7 @@ use App\Traits\orderReports;
 use App\Traits\otherReports;
 use App\Traits\purchasesReports;
 use App\Traits\salesReports;
+use App\User;
 
 
 
@@ -43,5 +44,79 @@ class IMSReportsController extends Controller
 				break;
 		}
 	}
+
+	public function inventoryLevels()
+	{
+
+	}
+
+	public function stockLevels()
+	{
+
+	}
+
+	public function rawMaterialLevels()
+	{
+
+	}
+
+	public function workInProgress()
+	{
+
+	}
+
+	public function transactionLog()
+	{
+
+	}
+
+	public function salesReport()
+	{
+
+	}
+
+	public function purchaseOrders()
+	{
+
+	}
+
+	public function customerOrders()
+	{
+
+	}
+
+	public function productSales()
+	{
+
+	}
+
+	/**
+	LISTS
+	*/
+	public function productList()
+	{
+		$products = Product::all();
+		return $products;
+	}
+
+	public function customerList()
+	{
+		$customers = Customer::all();
+		return $customers;
+	}
+
+	public function supplierList()
+	{
+		$suppliers = Supplier::all();
+		return $suppliers;
+	}
+
+	public function employeeList()
+	{
+		$employees = User::all();
+		return $employees;
+	}
+
+
     
 }

@@ -46,20 +46,18 @@ class CustomersController extends Controller
      */
     public function store(Request $request)
     {
-          /* $validation_rules = array(
+           $validation_rules = array(
 
-          'first_name'           => 'required|string',
-            'last_name'           => 'required|string',
+          'customer_name'           => 'required|string',
 
           'mobile_number'           => 'required',
           'work_phone'           => 'string',
           'phone_code'           => 'required|string',
           'fax'           => 'string',
-          'email'           => 'required|email',
+          'email'           => 'email',
           'postal_address'           => 'string',
           'town'           => 'string',
-          'zip'           => 'numeric',
-          'phisical_address'           => 'required|string',
+          'zip'           => 'numeric|digits:5',
          
 
       );
@@ -71,17 +69,16 @@ class CustomersController extends Controller
      if($validator->fails()) {
 
      
-        return response()->json('Something went wrong');
-    }*/
+        return $validator->messages();
+    }
 
 
 
         $customer = new Customer();
          //return $request->input('first_name');
-         $customer->first_name = $request->input('first_name');
-         $customer->last_name = $request->input('last_name');
+         $customer->customer_name = $request->input('customer_name');
          $customer->mobile_number = $request->input('mobile_number');
-         $customer->company = $request->input('company');
+         $customer->country = $request->input('country');
          $customer->work_phone = $request->input('work_phone');
          $customer->phone_code = $request->input('phone_code');
          $customer->fax = $request->input('fax');
@@ -96,7 +93,7 @@ class CustomersController extends Controller
 
         $url = $request->fullUrl();
         Event::Fire(new TransactionLogEvent($transactionCode,$transaction,$url));
-         return response()->json($customer);
+         return $customer;
     }
 
     /**

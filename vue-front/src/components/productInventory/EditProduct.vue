@@ -1,5 +1,6 @@
 <template>
     <div>
+    {{product}}
         <h3 class="title">Edit Product</h3>
         <div class="row">
           <div class="col-md-10"></div>
@@ -61,7 +62,7 @@
     export default{
         data(){
             return{
-                Product:{}
+                product:{}
             }
         },
 
@@ -74,7 +75,7 @@
             {
               let uri = `http://127.0.0.1:8000/api/products/${this.$route.params.id}/edit`;
                 this.axios.get(uri).then((response) => {
-                    this.Product = response.data;
+                    this.product = response.data;
                 });
             },
 

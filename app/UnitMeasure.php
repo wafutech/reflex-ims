@@ -13,4 +13,9 @@ class UnitMeasure extends Model
     {
     	return $this->hasMany('App\Product');
     }
+
+     public function inventories()
+    {
+    	return $this->belongsTo('App\Inventory');
+    }
 }

@@ -19,7 +19,7 @@ class PaymentmethodsController extends Controller
      */
     public function index()
     {
-      $paymentMethods = PaymentMethod::all();
+      $paymentMethods = PaymentMethod::orderBy('payment_method','asc')->get();
       return response()->json($paymentMethods) ; 
     }
 
@@ -69,7 +69,9 @@ class PaymentmethodsController extends Controller
      */
     public function edit($id)
     {
-        //
+    $pm = PaymentMethod::findOrFail($id);
+    return $pm;
+
     }
 
     /**

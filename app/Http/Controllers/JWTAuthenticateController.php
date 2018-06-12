@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\RegisterFormRequest;
 use App\User;
 
+
 class JWTAuthenticateController extends Controller
 {
     
@@ -36,19 +37,21 @@ class JWTAuthenticateController extends Controller
                 'msg' => 'Invalid Credentials.'
             ], 400);
     }
+
+
     return response([
-            'status' => 'success'
-        ])
-        ->header('Authorization', $token);
+            'status' => 'success',
+            'token' =>$token
+        ]) ->header('Authorization', $token);
 }
 
 public function user(Request $request)
 {
     $user = User::find(Auth::User()->id);
-   /* return response([
+   return response([
             'status' => 'success',
             'data' => $user
-        ]);*/
+        ]);
         return $user;
 }
 public function refresh()

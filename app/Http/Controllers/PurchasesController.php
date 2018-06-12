@@ -11,6 +11,9 @@ use DB;
 use Event;
 use  App\Events\TransactionLogEvent;
 use App\Traits\serialGenerator;
+use Session;
+use Illuminate\Support\Facades\Input;
+use Validator;
 
 
 class PurchasesController extends Controller
@@ -49,17 +52,43 @@ class PurchasesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+   
     public function store(Request $request)
     {
+       $validation_rules = array(
+
+          'product_id'           => 'required',
+
+          'quantity'           => 'required|numeric',
+          'unit_cost'           => 'required|numeric',
+          'supplier_id'           => 'required',
+          'expected_date'           => 'required|date',
+          
+      );
+
+    $validator = Validator::make(Input::all(), $validation_rules);
+
+     // Return back to form w/ validation errors & session data as input
+
+     if($validator->fails()) {
+
+     
+        return $validator->messages();
+    }
        $purchase = new Purchase;
        $purchase->product_id = $request->input('product_id');
        $purchase->supplier_id = $request->input('supplier_id');
        $purchase->quantity = $request->input('quantity');
        $purchase->unit_cost = $request->input('unit_cost');
        $purchase->amount = $request->input('quantity')*$request->input('unit_cost');
+        $purchase->expected_date = $request->input('expected_date');
+        $purchase->received=0;
        $purchase->user_id = 1;
        $purchase->save();
-       $product = $purchase->product_id;
+       return 'success';
+
+       /*$product = $purchase->product_id;
        $stock = Stock::where('product_id',$product)->first();
        if($stock==null)
        {
@@ -75,7 +104,7 @@ class PurchasesController extends Controller
            }
        $stock_bal = $stock->quantity_in_hand +$purchase->quantity;
        //update new stock levels;
-        DB::update('update stocks set quantity_in_hand=? where product_id =?',[$stock_bal,$product]);
+        DB::update('update stocks set quantity_in_hand=? where product_id =?',[$stock_bal,$product]);*/
 
          $transactionCode = $this->transactionCode();
         $transaction = 'Purchased new item with id: '.$purchase->product_id.'purchase order#'.$purchase->id;

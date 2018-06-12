@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import VeeValidate from 'vee-validate';
 require('../static/js/jquery-3.3.1.js');
 require('../static/css/navbar.css');
 //require('../static/js/nalocalvbar.js');
@@ -19,9 +20,15 @@ require('../static/css/navbar.css');
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
+Vue.use(VeeValidate);
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
-
+//axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+Vue.axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+/*Vue.use(require('@websanova/vue-auth'), {
+  auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+  http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
+})*/
 new Vue({
   el: '#app',
   router,

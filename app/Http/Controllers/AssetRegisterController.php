@@ -35,15 +35,15 @@ class AssetRegisterController extends Controller
       
     	if($id!=null)
     	{
-$assets = DB::table('asset_register')
+$asset = DB::table('asset_register')
                 ->join('suppliers','asset_register.supplier_id','suppliers.id','asset_register.id')
                 ->join('asset_categories','asset_register.category_id','asset_categories.id','asset_register.category_id')
                 ->join('asset_conditions','asset_register.asset_condition_id','asset_conditions.id','asset_register.asset_condition_id')
                 ->join('depreciation_methods','asset_register.depreciation_method_id','depreciation_methods.id','asset_register.depreciation_method_id')
                 ->where('asset_register.id',$id)
-                ->get();  
+                ->first();  
 
-              return $assets;  	
+              return $asset;  	
               }
 
     	$assets = DB::table('asset_register')
@@ -133,8 +133,19 @@ $assets = DB::table('asset_register')
 
       public function show($id)
       {
-      	$asset = AssetRegister::findOrFail($id);
-      	return response()->json($asset);
+
+        $asset = DB::table('asset_register')
+                ->join('suppliers','asset_register.supplier_id','suppliers.id','asset_register.id')
+                ->join('asset_categories','asset_register.category_id','asset_categories.id','asset_register.category_id')
+                ->join('asset_conditions','asset_register.asset_condintion_id','asset_conditions.id','asset_register.asset_condintion_id')
+                ->join('depreciation_methods','asset_register.depreciation_method_id','depreciation_methods.id','asset_register.depreciation_method_id')
+                ->where('asset_register.id',$id)
+                ->first();
+               return response()->json($asset);   
+
+              //return $asset; 
+        //$asset = AssetRegister::findOrFail($id);
+      	//return response()->json($asset);
       }
 
          public function edit($id)

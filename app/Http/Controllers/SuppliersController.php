@@ -22,8 +22,9 @@ class SuppliersController extends Controller
      */
     public function index()
     {
+        
         $suppliers = Supplier::all();
-        return response()->json($suppliers);
+return response()->json($suppliers);
     }
 
     /**
@@ -47,19 +48,19 @@ class SuppliersController extends Controller
 
         $validation_rules = array(
 
-          'first_name'           => 'required|string',
-            'last_name'           => 'required|string',
+          'supplier_name'           => 'required|string',
+            'contact_name'           => '',
 
           'mobile_number'           => 'required',
-          'work_phone'           => 'string',
+          'work_phone'           => 'required',
           'phone_code'           => 'required|string',
-          'fax'           => 'string',
-          'email'           => 'required|email',
-          'company'           => 'required',
+          'fax'           => '',
+          'email'           => 'email',
+          'country'           => '',
           'postal_address'           => 'string',
           'town'           => 'string',
           'zip'           => 'numeric',
-          'phisical_address'           => 'required|string',
+          'phisical_address'           => 'string',
          
 
       );
@@ -71,16 +72,16 @@ class SuppliersController extends Controller
      if($validator->fails()) {
 
      
-        return response()->json('Something went wrong');
+        return $validator->messages();
     }
 
 
         $supplier = new Supplier();
-         //return $request->input('first_name');
-         $supplier->first_name = $request->input('first_name');
-         $supplier->last_name = $request->input('last_name');
+        $supplier->contact_title = $request->input('contact_title');
+         $supplier->supplier_name = $request->input('supplier_name');
+         $supplier->contact_name = $request->input('contact_name');
          $supplier->mobile_number = $request->input('mobile_number');
-         $supplier->company = $request->input('company');
+         $supplier->country = $request->input('country');
          $supplier->work_phone = $request->input('work_phone');
          $supplier->phone_code = $request->input('phone_code');
          $supplier->fax = $request->input('fax');
@@ -91,7 +92,7 @@ class SuppliersController extends Controller
          $supplier->phisical_address = $request->input('phisical_address');
          $supplier->save();
          $transactionCode = $this->transactionCode();
-        $transaction = 'Added new supplier: '.$supplier->first_name.' '.$supplier->last_name.' with id: '.$supplier->id;
+        $transaction = 'Added new supplier: '.$supplier->supplier_name.'  with id: '.$supplier->id;
 
         $url = $request->fullUrl();
         Event::Fire(new TransactionLogEvent($transactionCode,$transaction,$url));
@@ -117,7 +118,9 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $supplier = Supplier::findOrFail($id);
+        return $supplier;
+
     }
 
     /**

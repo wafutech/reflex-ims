@@ -7,60 +7,57 @@
             <p>Registration completed. You can now <router-link :to="{name:'login'}">sign in.</router-link></p>
         </div>
         <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
-            <div class="form-group" v-bind:class="{ 'has-error': error && errors.name }">
+            <div class="form-group" v-bind:class="{ 'has-error': error && errors2.name }">
                 <label for="name">Name</label>
-                <input type="text" id="name" class="form-control" v-model="user.name" required>
-                <span class="help-block" v-if="error && errors.name">{{ errors.name }}</span>
+                <input type="text" id="name" class="form-control" v-model="name" required>
+                <span class="help-block" v-if="error && errors2.name">{{ errors2.name }}</span>
             </div>
-            <div class="form-group" v-bind:class="{ 'has-error': error && errors.email }">
+            <div class="form-group" v-bind:class="{ 'has-error': error && errors2.email }">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="user.email" required>
-                <span class="help-block" v-if="error && errors.email">{{ errors.email }}</span>
+                <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
+                <span class="help-block" v-if="error && errors2.email">{{ errors2.email }}</span>
             </div>
-            <div class="form-group" v-bind:class="{ 'has-error': error && errors.password }">
+            <div class="form-group" v-bind:class="{ 'has-error': error && errors2.password }">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" v-model="user.password" required>
-                <span class="help-block" v-if="error && errors.password">{{ errors.password }}</span>
-            </div>
-            <div class="form-group" v-bind:class="{ 'has-error': error && errors.confirm_password }">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" id="password" class="form-control" v-model="user.confirm_password" required>
-                <span class="help-block" v-if="error && errors.password">{{ errors.confirm_password }}</span>
+                <input type="password" id="password" class="form-control" v-model="password" required>
+                <span class="help-block" v-if="error && errors2.password">{{ errors2.password }}</span>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
     </div>
 </template>
 <script> 
-import axios from 'axios';
+
     export default {
         data(){
             return {
-               
-                user:{},
+                name: '',
+                email: '',
+                password: '',
                 error: false,
-                errors: {},
+                errors2: {},
                 success: false
             };
         },
-       
-
         methods: {
-      register(){
-        let uri = 'http://127.0.0.1:8000/api/register';
-        axios.post(uri, this.user).then((response) => {
-          this.$router.push({name: 'home'})
-        })
-    },
-                        success: function () {
+            register(){
+                var app = this
+                this.$auth.register({
+                    params: {
+                        name: app.name,
+                        email: app.email,
+                        password: app.password
+                    }, 
+                    success: function () {
                         app.success = true
                     },
                     error: function (resp) {
                         app.error = true;
-                        app.errors = resp.response.data.errors;
+                        app.errors2 = resp.response.data.errors2;
                     },
-                 redirect: null   
-
-  }
+                    redirect: null
+                });                
+            }
+        }
     }
 </script>

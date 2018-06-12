@@ -9,8 +9,8 @@ class Order extends Model
     //
     protected $table ='orders';
     protected $fillable = array('id','customer_id','order_date',
-    	'ship_date','ship_name','ship_address','ship_city','ship_zip',
-    	'ship_fee','payment_method_id','paid_date','notes','user_id','order_status_id','amount');
+        'expected_date',
+        'delivery_fee','payment_method_id','notes','user_id','order_status_id','amount','paid','date_paid');
 
     public function Customer()
     {

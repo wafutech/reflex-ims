@@ -1,40 +1,43 @@
 <template>
     <div>
-        <h3>Cancelled Orders</h3>
+        <h3 class="title">Cancelled Orders <span class="pull-right"><router-link :to="{ name: 'reports'}" class="btn btn-success"><<Back</router-link></span></h3>
         
-          <div class="row">
-          <div class="col-md-10"></div>
-          <div class="col-md-2">
-            <router-link :to="{ name: 'create-customer'}" class="btn btn-warning">Print</router-link>
-          </div>
-        </div><br />
-          <table class="table table-hover table-striped table-responsive">
+          <div class="panel panel-default">
+          <div class="panel-heading">
+          <div class="panel-title">
+         <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <td>Date</td>
-                <td>OrderID</td>
-                <td>Customer</td>
-                <td>Order Amount</td>
-                <td>Status</td>
-                <td>Employee</td>
-                <td>Additionational Notes</td>
+                <th>Date</th>
+                <th>Order No.</th>
+                <th>Customer</th>
+                <th>Order Amount</th>
+                <th>Status</th>
+                <th> Notes</th>
                                 
             </tr>
             </thead>
-
-            <tbody>
+            </table>
+          </div>
+          </div>
+          <div class="panel-body">
+         <table class="table table-hover table-striped">
+         <tbody>
                 <tr  v-for="order in orders"
             :key="order.id">
                     <td>{{ order.order_date }}</td>
                     <td>{{ order.id }}</td>
-                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+                    <td>{{ order.customer_name }} </td>
                     <td>{{ order.order_status }}</td>
-                    <td>{{ order.name }}</td>
-                    <td>{{ order.notes}}</td>                                  
+                    <td>{{ order.notes}}</td>                              
                                        
                 </tr>
             </tbody>
-        </table>
+
+         </table>
+          </div>
+          </div>
+          
     </div>
 </template>
 

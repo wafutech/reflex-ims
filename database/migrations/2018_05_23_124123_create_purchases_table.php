@@ -20,6 +20,8 @@ class CreatePurchasesTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->float('unit_cost');
             $table->float('amount');
+            $table->date('expected_date');
+            $table->integer('received')->unsigned()->default(0);
             $table->integer('user_id')->unsigned();
             $table->timestamps();
         });

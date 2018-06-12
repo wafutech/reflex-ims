@@ -8,6 +8,10 @@
 
         <form v-on:submit.prevent="updateSupplier">
           
+          <div class="form-group">
+                <label name="contact_title">Contact Title</label>
+                <input type="text" class="form-control" v-model="supplier.contact_title">
+            </div>
              <div class="form-group">
                 <label name="first_name">First Name</label>
                 <input type="text" class="form-control" v-model="supplier.first_name">
@@ -62,7 +66,7 @@
             </div>            
 
              <div class="form-group">
-                 <button class="btn btn-success pull-right">Update</button>
+                 <button class="btn btn-success pull-right">Save Changes</button>
             </div>  
 
            
@@ -86,7 +90,7 @@
         methods: {
             getSupplier()
             {
-              let uri = `http://localhost/ims/public/api/suppliers/${this.$route.params.id}/edit`;
+              let uri = `http://127.0.0.1:8000/api/suppliers/${this.$route.params.id}/edit`;
                 this.axios.get(uri).then((response) => {
                     this.supplier = response.data;
                 });
@@ -94,9 +98,9 @@
 
             updateSupplier()
             {
-              let uri = 'http://localhost/ims/public/api/suppliers/'+this.$route.params.id;
+              let uri = 'http://127.0.0.1:8000/api/suppliers/'+this.$route.params.id;
                 this.axios.patch(uri, this.supplier).then((response) => {
-                  this.$router.push({name: 'display-supplier'});
+                  this.$router.push({name: 'list-suppliers'});
                 });
             }
         }

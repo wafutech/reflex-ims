@@ -38,6 +38,7 @@
                      <td>{{ product.reorder_quantity }}</td>
                     <td>{{ product.user_id}}</td>
                     <td>{{ product.created_at}}</td>
+                    
                     <td><router-link :to="{name: 'edit-product', params: { id: product.id }}" class="btn btn-primary">Edit</router-link></td>
                     <td><button class="btn btn-danger" v-on:click="deleteproduct(product.id)">Delete</button></td>
                 </tr>

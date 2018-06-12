@@ -10,7 +10,10 @@
         <div class="col-md-10">
           <div class="form-group">
             <label>Product Name:</label>
-            <input type="text" class="form-control" v-model="product.product_name">
+            <input type="text" name="product_name" v-validate="'required|string'" class="form-control" v-model="product.product_name" autofocus>
+          </div>
+          <div class="help-block alert alert-danger" v-show="errors.has('product_name')">
+          {{errors.first('product_name')}}
           </div>
         </div>
         </div>
@@ -19,8 +22,11 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Description:</label>
-              <input type="text" class="form-control" v-model="product.product_description" />
+              <input type="text" name="description" v-validate="'required|string'" class="form-control" v-model="product.product_description" />
             </div>
+            <div class="help-block alert alert-danger" v-show="errors.has('description')">
+          {{errors.first('description')}}
+          </div>
           </div>
         </div>
           
@@ -29,10 +35,13 @@
           <div class="col-md-10">
           <div class="form-group">
             <label>Category:</label>
-            <select v-model="product.category_id" class="form-control" style="height:40px;">
-            <option value="null" selected>Select Category</option>
+            <select v-model="product.category_id" name="category_id" v-validate="'required'" class="form-control" style="height:40px;">
+            <option disabled value=''>Select Category</option>
             <option v-for="c in categories" v-bind:value="c.id">{{c.category_name}}</option> 
           </select> 
+          <div class="help-block alert alert-danger" v-show="errors.has('category_id')">
+          {{errors.first('category_id')}}
+          </div>
 
           </div>
           </div>
@@ -45,10 +54,13 @@
           <div class="col-md-10">
           <div class="form-group">
             <label>Unit Measure:</label>
-            <select v-model="product.unit_id" class="form-control" style="height:40px;">
+            <select v-model="product.unit_id" name="unit_id" v-validate="unit_id" class="form-control" style="height:40px;">
             <option value="" >Select Measure</option>
             <option v-for="u in units" v-bind:value="u.id">{{u.unit_description}}</option> 
           </select> 
+          <div class="help-block alert alert-danger" v-show="errors.has('unit_id')">
+          {{errors.first('unit_id')}}
+          </div>
 
           </div>
           </div>
@@ -61,7 +73,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Unit Cost:</label>
-              <input type="number" class="form-control" v-model="product.unit_cost" />
+              <input type="number" name="unit_cost" v-validate="'required'" class="form-control" v-model="product.unit_cost" />
+              <div class="help-block alert alert-danger" v-show="errors.has('unit_cost')">
+          {{errors.first('unit_cost')}}
+          </div>
             </div>
           </div>
         </div>
@@ -71,7 +86,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Selling Price:</label>
-              <input type="number" class="form-control" v-model="product.list_price" />
+              <input type="number" name="list_price" v-validate="'required'" class="form-control" v-model="product.list_price" />
+              <div class="help-block alert alert-danger" v-show="errors.has('list_price')">
+          {{errors.first('list_price')}}
+          </div>
             </div>
           </div>
         </div>
@@ -79,7 +97,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Min-Order:</label>
-              <input type="text" class="form-control" v-model="product.min_order" />
+              <input type="text" name="min_order" v-validate="'required'" class="form-control" v-model="product.min_order" />
+              <div class="help-block alert alert-danger" v-show="errors.has('min_order')">
+          {{errors.first('min_order')}}
+          </div>
             </div>
           </div>
         </div>
@@ -90,7 +111,11 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Supply Capacity:</label>
-              <input type="text" class="form-control" v-model="product.supply_capacity" />
+              <input type="text" class="form-control" v-model="product.supply_capacity" name="supply_capacity" v-validate="'required'" />
+
+              <div class="help-block alert alert-danger" v-show="errors.has('supply_capacity')">
+          {{errors.first('supply_capacity')}}
+          </div>
             </div>
           </div>
         </div>
@@ -99,7 +124,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Quantity in Stock:</label>
-              <input type="number" class="form-control" v-model="product.quantity_in_stock" />
+              <input type="number" class="form-control" v-model="product.quantity_in_stock" name="quantity_in_stock" v-validate="'required'" />
+              <div class="help-block alert alert-danger" v-show="errors.has('quantity_in_stock')">
+          {{errors.first('quantity_in_stock')}}
+          </div>
             </div>
           </div>
         </div>
@@ -111,7 +139,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Re-Order Level:</label>
-              <input type="text" class="form-control" v-model="product.reorder_level" />
+              <input type="text" class="form-control" v-model="product.reorder_level" name="reorder_level" v-validate="'required'" />
+              <div class="help-block alert alert-danger" v-show="errors.has('reorder_level')">
+          {{errors.first('reorder_level')}}
+          </div>
             </div>
           </div>
         </div>
@@ -120,7 +151,10 @@
           <div class="col-md-10">
             <div class="form-group">
               <label>Re-Order Quantity:</label>
-              <input type="text" class="form-control" v-model="product.reorder_quantity" />
+              <input type="text" class="form-control" v-model="product.reorder_quantity" name="reorder_quantity" v-validate="'reorder_quantity'"/>
+              <div class="help-block alert alert-danger" v-show="errors.has('reorder_quantity')">
+          {{errors.first('reorder_quantity')}}
+          </div>
             </div>
           </div>
         </div>
@@ -173,7 +207,7 @@
        
     },
 
-     created: function()
+     mounted: function()
         {
             this.fetchCategories();
             this.fetchUnitofMesuares()

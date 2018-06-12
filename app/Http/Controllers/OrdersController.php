@@ -11,6 +11,11 @@ use App\Traits\serialGenerator;
 use App\OrderItem;
 use App\Order;
 use App\Stock;
+use App\Product;
+use Illuminate\Support\Facades\Input;
+use App\Invoice;
+use Validator;
+use Session;
 
 class OrdersController extends Controller
 {
@@ -33,7 +38,8 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        //
+        $orders = Order::all();
+        return $orders;
     }
 
     /**
@@ -43,55 +49,49 @@ class OrdersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {     
+    $validation_rules = array(
+
+          'customer_id'           => 'required',
+
+          'order_status_id'           => 'required|numeric',
+          'order_amount'           => 'required|numeric',
+          'paid'           => '',
+          'expected_date'           => 'required|date',
+           'date_paid'           => 'date',
+           'delivery_fee'           => 'required|numeric',
+           'notes'           => '',
+          
+      );
+
+    $validator = Validator::make(Input::all(), $validation_rules);
+
+     // Return back to form w/ validation errors & session data as input
+
+     if($validator->fails()) {
+
+     
+        return $validator->messages();
+    }   
         $order = new Order;
         $order->customer_id = $request->input('customer_id');
          $order->amount = $request->input('order_amount');
         $order->order_date = $request->input('order_date');
-        $order->ship_date = $request->input('ship_date');
-        $order->ship_fee = $request->input('ship_fee');
-        $order->ship_name = $request->input('ship_name');
+        $order->expected_date = $request->input('expected_date');
+        $order->delivery_fee = $request->input('delivery_fee');
+        
         $order->payment_method_id = $request->input('payment_method_id');
-        $order->paid_date = $request->input('paid_date');
+        $order->paid = $request->input('paid');
+       $order->date_paid = $request->input('date_paid');
         $order->notes = $request->input('notes');
         $order->order_status_id = $request->input('order_status_id');
         $order->user_id = 1;
         $order->save();
-        //Process order details
-         $product_id = $request->input('product_id');
-         $quantity = $request->input('quantity');
-         $unit_cost = $request->input('unit_cost');
-         $units = $request->input('units');
-         $amount = $request->input('amount');
-         $status = $request->input('order_status_id');
-
-        $product =array('product_id'=>$product_id,
-            'quantity'=>$quantity,'unit_cost'=>$unit_cost,'amount'=>$amount,'units'=>$units,'order_status_id'=>$status);
-        
-       $products = [];
-for($i= 0; $i < count($product); $i++){
-             
-    $products[] = [
-        'order_id' => 1,
-        'product_id' => $product['product_id'],
-        'units'=>4,
-        'quantity' => $product['quantity'],
-        'unit_price' => $product['unit_cost'],
-        'product_discount_id'=>0,
-        'amount' => $product['amount']
-    ];
+      return $order->id;
 
 }
-foreach ($products as $key => $item)
- {
-    //update new stock levels;
-    $stock = Stock::where('product_id',$item['product_id'][$key])->first();
-    $stock_bal = $stock->quantity_in_hand-$item['quantity'][$key];
 
-        DB::update('update stocks set quantity_in_hand=? where product_id =?',[$stock_bal,$item['product_id'][$key]]);
-}
-
-DB::table('order_items')->insert($products);
+/*DB::table('order_items')->insert($products);
            
 
         $transactionCode = $this->transactionCode();
@@ -101,7 +101,7 @@ DB::table('order_items')->insert($products);
         Event::Fire(new TransactionLogEvent($transactionCode,$transaction,$url));
         return response()->json('Order Placed');
          
-    }
+    }*/
 
     /**
      * Display the specified resource.
@@ -111,7 +111,8 @@ DB::table('order_items')->insert($products);
      */
     public function show($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return $product;
     }
 
     /**
@@ -122,7 +123,8 @@ DB::table('order_items')->insert($products);
      */
     public function edit($id)
     {
-        //
+         $product = Product::findOrFail($id);
+        return $product;
     }
 
     /**

@@ -10,6 +10,7 @@ import Loginform from '@/components/Auth/Loginform.vue';
 import ListFixedAsset from '@/components/fixedassets/ListFixedAsset.vue';
 import CreateAsset from '@/components/fixedassets/CreateAsset.vue';
 import EditAsset from '@/components/fixedassets/EditAsset.vue';
+import ShowAsset from '@/components/fixedassets/ShowAsset.vue';
 import CreateSupplier from '@/components/suppliers/CreateSupplier.vue';
 import DisplaySupplier from '@/components/suppliers/DisplaySupplier.vue';
 import EditSupplier from '@/components/suppliers/EditSupplier.vue';
@@ -19,6 +20,7 @@ import CreateAssetCategory from '@/components/assetcategories/CreateAssetCategor
 import CreateProduct from '@/components/productInventory/CreateProduct.vue';
 import EditProduct from '@/components/productInventory/EditProduct.vue';
 import ListProduct from '@/components/productInventory/ListProduct.vue';
+import ReceiveInventory from '@/components/productInventory/ReceiveInventory.vue';
 import CreateProductCategory from '@/components/productInventory/CreateProductCategory.vue';
 import EditProductCategory from '@/components/productInventory/EditProductCategory.vue';
 import ListProductCategory from '@/components/productInventory/ListProductCategory.vue';
@@ -26,7 +28,7 @@ import CreatePurchaseOrder from '@/components/productInventory/CreatePurchaseOrd
 import EditPurchaseOrder from '@/components/productInventory/EditPurchaseOrder.vue';
 import ListPurchaseOrder from '@/components/productInventory/ListPurchaseOrder.vue';
 import ListOders from '@/components/productInventory/ListOrders.vue';
-import OrderForm from '@/components/productInventory/OrderForm.vue';
+import SalesOrderForm from '@/components/orders/SalesOrderForm.vue';
 import ListCustomer from '@/components/customers/ListCustomer.vue';
 import CreateCustomer from '@/components/customers/CreateCustomer.vue';
 import EditCustomer from '@/components/customers/EditCustomer.vue';
@@ -64,11 +66,32 @@ import SalesYearlyReport from '@/components/reports/sales/SalesYearlyReport.vue'
 import SalesPeriodicReportForm from '@/components/reports/sales/SalesPeriodicReportForm.vue';
 import StockLevels from '@/components/reports/others/StockLevels.vue';
 import TransactionLog from '@/components/reports/others/TransactionLog.vue';
+import CompanySetup from '@/components/system/CompanySetup.vue';
+import RawMaterial from '@/components/inventory/RawMaterial.vue';
+import AddRawMaterial from '@/components/inventory/AddRawMaterial.vue';
+import EditRawMaterial from '@/components/inventory/EditRawMaterial.vue';
+import ListRawMaterial from '@/components/inventory/ListRawMaterial.vue';
+import AddWarehouse from '@/components/inventory/AddWarehouse.vue';
+import EditWarehouse from '@/components/inventory/EditWarehouse.vue';
+import ListWarehouse from '@/components/inventory/ListWarehouse.vue';
+import InventoryNavbar from '@/components/inventory/InventoryNavbar.vue';
+import RawMaterialInventory from '@/components/inventory/RawMaterialInventory.vue';
+import Inventory from '@/components/inventory/Inventory.vue';
+import ReceiveFinishedGoods from '@/components/inventory/ReceiveFinishedGoods.vue';
+import PurchaseOrderForm from '@/components/orders/PurchaseOrderForm.vue';
+
+
 //import modalTemplate from '@/components/modalTemplate.vue';
 import NotFound from '@/components/GeneralViews/NotFoundPage.vue';
-import router from '@/router';
-import VueAuth from '@websanova/vue-auth'; 
-import AuthBearer from '@websanova/vue-auth';
+import router from '@/router'
+import VueAuth from '@websanova/vue-auth'
+import AuthBearer from '@websanova/vue-auth'
+
+/*Import chart components*/
+import VueChartJs from '@/components/reports/charts/VueChartJs'
+import VueCharts from '@/components/reports/charts/VueCharts'
+import VueChartKick from '@/components/reports/charts/VueChartKick'
+import LineChart from '@/components/reports/charts/LineChart'
 
 /*GeneralViews
 //import NotFound from '@/components/GeneralViews/NotFoundPage.vue'
@@ -84,12 +107,20 @@ import TableList from '@/components/Dashboard/Views/TableList.vue'*/
 Vue.use(Router);
 Vue.router = router
 export default new Router({
+   mode: 'history',
   routes: [
     {
       path: '/',
     component: Home,
     name: 'home'
     },
+
+    {
+      path: 'setup',
+    component: CompanySetup,
+    name: 'setup'
+    },
+
     {
         path: '/register',
         name: 'register',
@@ -112,7 +143,7 @@ export default new Router({
         name: 'dashboard',
         component: Dashboard,
         meta: {
-            auth: true
+            auth:false
         }
         
     },
@@ -121,7 +152,7 @@ export default new Router({
         path: '/assets',
         component: ListFixedAsset,
          meta: {
-            auth: true
+            auth:false
         }
     },
         {
@@ -129,7 +160,7 @@ export default new Router({
         path: '/assets/create',
         component: CreateAsset,
          meta: {
-            auth: true
+            auth:false
         }
         },
          {
@@ -137,7 +168,16 @@ export default new Router({
         path: '/assets/edit',
         component: EditAsset,
          meta: {
-            auth: true
+            auth:false
+        }
+        },
+
+        {
+        name: 'show-asset',
+        path: '/assets/show',
+        component: ShowAsset,
+         meta: {
+            auth:false
         }
         },
 
@@ -146,7 +186,7 @@ export default new Router({
         path: '/suppliers',
         component: DisplaySupplier,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -155,16 +195,16 @@ export default new Router({
         path: '/suppliers/create',
         component: CreateSupplier,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
            {
         name: 'edit-supplier',
-        path: '/supplies/id:',
+        path: '/suppliers/edit',
         component: EditSupplier,
          meta: {
-            auth: true
+            auth:false
         }
         },
             {
@@ -172,7 +212,7 @@ export default new Router({
         path: '/asset/categories/edit',
         component: EditAssetCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
             {
@@ -180,7 +220,7 @@ export default new Router({
         path: '/asset/categories',
         component: DisplayAssetCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -189,7 +229,7 @@ export default new Router({
         path: '/categories/create',
         component: CreateAssetCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
         //Product inventory
@@ -198,7 +238,7 @@ export default new Router({
         path: '/products/categories/create',
         component: CreateProductCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
@@ -206,7 +246,7 @@ export default new Router({
         path: '/product/categories',
         component: ListProductCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
@@ -214,7 +254,7 @@ export default new Router({
         path: '/product/categories/edit',
         component: EditProductCategory,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -228,7 +268,7 @@ export default new Router({
         path: '/products/edit',
         component: EditProduct,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -237,7 +277,16 @@ export default new Router({
         path: '/products',
         component: ListProduct,
          meta: {
-            auth: true
+            auth:false
+        }
+        },
+
+        {
+        name: 'receive-stock',
+        path: '/stock-inventories/receive',
+        component: ReceiveInventory,
+         meta: {
+            auth:false
         }
         },
 
@@ -246,23 +295,23 @@ export default new Router({
         path: '/orders',
         component: ListOders,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
-            name: 'create-orders',
+        name: 'creat-sale-order',
         path: '/orders/create',
-        component: OrderForm,
+        component: SalesOrderForm,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
         name: 'create-purchase-order',
         path: '/purchases/create',
-        component: CreatePurchaseOrder,
+        component: PurchaseOrderForm,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
@@ -270,7 +319,7 @@ export default new Router({
         path: '/purchases/id:/edit',
         component: EditPurchaseOrder,
          meta: {
-            auth: true
+            auth:false
         }
         },
         {
@@ -278,7 +327,7 @@ export default new Router({
         path: '/purchases',
         component: ListPurchaseOrder,
         meta: {
-            auth: true
+            auth:false
         }
     },
         {
@@ -286,7 +335,7 @@ export default new Router({
         path: '/customers',
         component: ListCustomer,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -295,7 +344,7 @@ export default new Router({
         path: '/customers/create',
         component: CreateCustomer,
          meta: {
-            auth: true
+            auth:false
         }
         },
 
@@ -304,7 +353,7 @@ export default new Router({
         path: '/customers/edit',
         component: EditCustomer,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -313,7 +362,7 @@ export default new Router({
         path: '/depreciation',
         component: DepreciationMethodsForm,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -322,7 +371,7 @@ export default new Router({
         path: '/depreciation/reducingbal',
         component: ReducingBalance,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -330,7 +379,7 @@ export default new Router({
         path: '/depreciation/straight-line',
         component: StraightLine,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -339,7 +388,7 @@ export default new Router({
         path: '/depreciation/sum-years',
         component: SumYears,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -348,7 +397,7 @@ export default new Router({
         path: '/depreciation/unit-production',
         component: UnitProduction,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -357,7 +406,7 @@ export default new Router({
         path: '/reports',
         component: Reports,
          meta: {
-            auth: true
+            auth:false
         }
     },
     
@@ -370,7 +419,7 @@ export default new Router({
         path: '/all-orders',
         component: OrdersToDate,
          meta: {
-            auth: true
+            auth:false
         }
     }, 
     {
@@ -378,7 +427,7 @@ export default new Router({
         path: '/new-orders',
         component: NewOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -386,7 +435,7 @@ export default new Router({
         path: '/invoiced-orders',
         component: InvoicedOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -394,7 +443,7 @@ export default new Router({
         path: '/cancelled-orders',
         component: CancelledOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -402,7 +451,7 @@ export default new Router({
         path: '/shipped-orders',
         component: ShippedOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -410,7 +459,7 @@ export default new Router({
         path: '/completed-orders',
         component: CompletedOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -418,7 +467,7 @@ export default new Router({
         path: '/orders-by-customer',
         component: OrderByCustomer,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -427,7 +476,7 @@ export default new Router({
         path: '/orders-by-product',
         component: OrderByProduct,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -436,7 +485,7 @@ export default new Router({
         path: '/orders-by-employee',
         component: OrderByEmployee,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -445,7 +494,7 @@ export default new Router({
         path: '/monthly-order-report',
         component: OrderMonthlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -454,7 +503,7 @@ export default new Router({
         path: '/order-yearly-report',
         component: OrderYearlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -462,7 +511,7 @@ export default new Router({
         path: '/order-periodic-report-form',
         component: OrderPeriodicReportForm,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -471,7 +520,7 @@ export default new Router({
         path: '/order-periodic-report',
         component: OrderPeriodicReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -479,7 +528,7 @@ export default new Router({
         path: '/purchase-orders-report',
         component: PurchaseOrders,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -488,7 +537,7 @@ export default new Router({
         path: '/purchase-orders-by-employee',
         component: PurchaseOrderByEmployee,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -496,7 +545,7 @@ export default new Router({
         path: '/purchase-orders-report-byvendor',
         component: PurchaseOrderByVendor,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -504,7 +553,7 @@ export default new Router({
         path: '/purchase-orders-monthly-report',
         component: PurchaseOrderMonthlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -512,7 +561,7 @@ export default new Router({
         path: '/purchase-orders-yearly-report',
         component: PurchaseOrderYearlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -520,7 +569,7 @@ export default new Router({
         path: '/purchase-orders-periodic-reports',
         component: PurchaseOrderPeriodicReportForm,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -528,7 +577,7 @@ export default new Router({
         path: '/sales',
         component: SalesByProduct,
          meta: {
-            auth: true
+            auth:false
         }
     },
 
@@ -537,7 +586,7 @@ export default new Router({
         path: '/sales-customer',
         component: SalesByCustomer,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -545,7 +594,7 @@ export default new Router({
         path: '/sales-employee',
         component: SalesByEmployee,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -553,7 +602,7 @@ export default new Router({
         path: '/sales-monthly-report',
         component: SalesMonthlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -561,7 +610,7 @@ export default new Router({
         path: '/sales-yearly-report',
         component: SalesYearlyReport,
          meta: {
-            auth: true
+            auth:false
         }
     },
     {
@@ -569,7 +618,7 @@ export default new Router({
         path: '/sales-periodic-report-form',
         component: SalesPeriodicReportForm,
          meta: {
-            auth: true
+            auth:false
         }
     },
      {
@@ -577,7 +626,7 @@ export default new Router({
         path: '/stock-levels',
         component: StockLevels,
          meta: {
-            auth: true
+            auth:false
         }
     },
      {
@@ -585,10 +634,121 @@ export default new Router({
         path: '/transactions',
         component: TransactionLog,
          meta: {
-            auth: true
+            auth:false
         }
       },
     
+    /**
+        RAW-MATERIALS
+    */
+
+    {
+        name: 'list-raw-materials',
+        path: '/raw-materials',
+        component: ListRawMaterial,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'add-raw-material',
+        path: '/raw-materials',
+        component: AddRawMaterial,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'edit-raw-material',
+        path: '/raw-material-edit',
+        component: EditRawMaterial,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'list-ware-houses',
+        path: '/warehousese',
+        component: ListWarehouse,
+         meta: {
+            auth:false
+        }
+      },
+      {
+        name: 'create-ware-house',
+        path: '/ware-houses/create',
+        component: AddWarehouse,
+         meta: {
+            auth:false
+        }
+      },
+      {
+        name: 'edit-ware-house',
+        path: '/ware-house/edit',
+        component: EditWarehouse,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'raw-material-inventories',
+        path: '/raw-material/inventories',
+        component: RawMaterialInventory,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'inventories',
+        path: '/inventories',
+        component: Inventory,
+         meta: {
+            auth:false
+        }
+      },
+      {
+        name: 'finished-goods',
+        path: '/stock/inventories',
+        component: ReceiveFinishedGoods,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'chartjs',
+        path: '/chartjs',
+        component: VueChartJs,
+         meta: {
+            auth:false
+        }
+      },
+
+      {
+        name: 'charts',
+        path: '/charts',
+        component: VueCharts,
+         meta: {
+            auth:false
+        }
+      },
+
+       {
+        name: 'chartkick',
+        path: '/chart-kick',
+        component: VueChartKick,
+         meta: {
+            auth:false
+        }
+      },
+
+
+
   { path: '*', 
   component: NotFound
    }
@@ -601,8 +761,8 @@ export default new Router({
 })
 
  Vue.router=router;
+  Vue.axios=axios;
  App.router = Vue.router;
-
 
 Vue.use(require('@websanova/vue-auth'),
 {
@@ -611,4 +771,9 @@ Vue.use(require('@websanova/vue-auth'),
   router:require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
 });
 
-//new Vue(App).$mount('#app');
+
+/*const router = new VueRouter({
+    mode:'history',
+    routes
+
+});*/

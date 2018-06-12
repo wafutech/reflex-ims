@@ -96,16 +96,16 @@
         methods: {
             getAsset()
             {
-              let uri = `http://127.0.0.1:8000/api/assets/${this.$route.params.id}/edit`;
-                this.axios.get(uri).then((response) => {
+            
+               return this.axios.get(`assets/${this.$route.params.id}/edit`).then((response) => {
                     this.asset = response.data;
                 });
             },
 
             updateAsset()
             {
-              let uri = 'http://127.0.0.1:8000/api/assets/'+this.$route.params.id;
-                this.axios.patch(uri, this.asset).then((response) => {
+             
+               return this.axios.patch('assets'+this.$route.params.id, this.asset).then((response) => {
                 this.message = 'Asset Updated';
                 this.submitted = true;
                   //this.$router.push({name: 'displayAsset'});

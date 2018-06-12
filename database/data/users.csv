@@ -1,0 +1,6 @@
+id,name,email,password,remember_token,created_at,updated_at
+1,admin,admin@admin.com,$2y$10$.ucgKbTkGAfAEbH4uMPSHuyOAFXpnI4DEX6R/RZP0ZUFjSF4wsM6i,,2018-04-01 17:45:18,2018-04-01 17:45:18
+2,user1,user1@ims.com,$2y$10$AqYP5Bt4gbpaWZqOFnl3cuyXHWPv54d0XKVS8mRqWkX4TTScOV8ci,,2018-04-01 17:51:06,2018-04-01 17:51:06
+3,user2,user2@ims.com,$2y$10$B3VJOemAZjlQMIwKJ6Dz7O3qRiZhlO0vEfksNoWwGe1FsD2WcOxhS,,2018-04-04 08:21:01,2018-04-04 08:21:01
+4,user3,user3@ims.com,$2y$10$8o1gpdvMaHdj3Hmx4hV5gOvVk5VXnyG.9jqS5BBpdqrzMni3w6s86,,2018-04-04 08:22:14,2018-04-04 08:22:14
+5,wafutech,wafutech@reflex.com,$2y$10$E5N0f7WNRSWwfj2srSeSCuD4q0AqTwDA1dFudRJ/i5F4qoVPcMs3.,,2018-05-02 06:05:19,2018-05-02 06:05:19

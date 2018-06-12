@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\OrderStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,9 @@ use Illuminate\Http\Request;
 |
 */
 /*----------------------\
-| API AUTHENTICATION
+| API AUTHENTICATION WITH PASSPORT
 ------------------------*/
-Route::Post('login',['as'=>'login','uses'=>'PassportController@login']);
+/*Route::Post('login',['as'=>'login','uses'=>'PassportController@login']);
 Route::Post('register','PassportController@register');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -26,23 +27,31 @@ Route::group(['middleware'=>'auth:api'],function()
 {
 	Route::post('get-details','PassportController@getDetails');
 
-});
+});*/
 
 /*##########################
 # API AUTHENTICATION
 #############################*/
+Route::group(['middleware'=>'cors'],function()
+{
+Route::post('auth/register', 'APIAuthController@register');
+Route::post('auth/login', 'APIAuthController@login');
+Route::group(['middleware' => 'jwt.auth'], function(){  
+	
+Route::get('auth/user', 'APIAuthController@user');
 
-Route::resource('users','UsersController');
-Route::group(['middleware' => 'jwt.auth'], function(){
-   
-   Route::post('auth/logout', 'JWTAuthenticateController@APIlogout');
+	});
+
+
 });
 
-Route::post('auth/register', 'JWTAuthenticateController@register');
+Route::resource('users','UsersController');
 
-Route::post('auth/login', 'JWTAuthenticateController@login');
-Route::group(['middleware' => 'jwt.auth'], function(){
-  Route::get('auth/user', 'JWTAuthenticateController@user');
+
+
+Route::group(['middleware' => 'jwt.auth'], function(){  
+ Route::post('auth/logout', 'JWTAuthenticateController@APIlogout');
+
 });
 Route::group(['middleware' => 'jwt.refresh'], function(){
   Route::patch('auth/refresh', 'JWTAuthenticateController@refresh');
@@ -57,12 +66,7 @@ Route::resource('asset/categories','AssetCategoriesController');
 /*Route::get('asset/categories','AssetCategoriesController@index');
 Route::post('asset/categories/store','AssetCategoriesController@store');*/
 
-//Products
-Route::resource('product/categories','ProductCategoriesController');
-Route::resource('products','ProductsController',['except'=>['create','edit']]);
-Route::resource('orders','OrdersController');
-Route::resource('purchases','PurchasesController',['except'=>['create','show','edit']]);
-Route::resource('stock','StockController',['except'=>['create','edit']]);
+
 
 Route::post('assets/depreciation','AssetDepreciationCalculationController@depreciationCal');
 Route::get('assets/depreciation/methods','AssetDepreciationCalculationController@depreciationMethods');
@@ -84,5 +88,47 @@ Route::get('lists/asset-classes','ListsController@assetClasses');
 Route::get('lists/asset-conditions','ListsController@assetConditions');
 
 Route::get('lists/unit-of-measures','ListsController@unitMeasures');
+Route::get('receive/purchases','InventoryManagementController@unReceivedStockInventory');
+
+
+/**
+PAYMENT METHODS
+--------------*/
+Route::resource('payment-methods','PaymentmethodsController');
+
+/**
+INVENTORY ITEMS
+--------------*/
+Route::resource('items','InventoryController');
+Route::resource('raw-materials','RawMaterialController',['except'=>['create']]);
+Route::resource('raw-material-inventory','RawMaterialInventoryController',['except'=>['create']]);
+//Products
+Route::resource('product/categories','ProductCategoriesController');
+Route::resource('products','ProductsController',['except'=>['create','edit']]);
+Route::resource('orders','OrdersController');
+Route::resource('order/details','OrderdetailsController');
+
+Route::resource('purchases','PurchasesController',['except'=>['create','show','edit']]);
+Route::resource('stock','StockController',['except'=>['create','edit']]);
+
+Route::resource('ware-houses','WarehouseController',['except'=>['create']]);
+
+/**
+MISC ROUTES
+--------------*/
+Route::post('order/item','MiscController@singleProduct');
+
+Route::post('company/setup','SettingController@setUp');
+//Retrieve order status
+Route::get('order/status',function()
+{
+$status = OrderStatus::all();
+return $status;
+});
+Route::post('virtual/purchases','VirtualSessionsController@getPurchaseOrderItems');
+Route::post('virtual/orders','VirtualSessionsController@getSalesOrder');
+
+
+
 
 

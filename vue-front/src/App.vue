@@ -1,6 +1,7 @@
 <template>
     <div class="page-wrapper">
-    <div id="throbber" style="display:none; min-height:120px;"></div>
+
+     <div id="throbber" style="display:none; min-height:120px;"></div>
 <div id="noty-holder"></div>
 <div id="wrapper">
 <!-- Navigation -->
@@ -49,32 +50,50 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-star"></i>  Inventory <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-star"></i>  Products/Items <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-2" class="collapse">
                         <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'create-product' }"> New Product</router-link></a></li>
                         <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-products' }"> Product List</router-link></a></li>
                         <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-product-categories' }"> Categories</router-link></a></li>
                     </ul>
                 </li>
+                
 
                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#customer-1"><i class="fa fa-fw fa-star"></i>  Customers <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="customer-1" class="collapse">
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'create-customer' }"> New Customer</router-link></a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-customers' }"> Customer List</router-link></a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'orders-by-customer' }"> Customer Orders</router-link></a></li>
-                        <li> <modal :show="showModal" @close="showModal = false"></modal>
-                    <button id="show-modal" @click="showModal = true">New Post</button></li>
+                    <a href="#" data-toggle="collapse" data-target="#inventory-1"><i class="fa fa-fw fa-star"></i>  Manage Inventory <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="inventory-1" class="collapse">
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'add-raw-material' }"> Receive Raw Materials</router-link></a>
+                          </li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'finished-goods' }"> Receive Stock Items</router-link></a></li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'orders-by-customer' }"> WIP</router-link></a></li>
+
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-ware-houses' }"> Warehouses</router-link></a></li>
+                        
                     </ul>
                 </li>
 
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#order-1"><i class="fa fa-fw fa-star"></i>  Orders <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="order-1" class="collapse">
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'create-customer' }"> New Order</router-link></a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-orders' }"> Orders</router-link></a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'orders-by-customer' }"> Customer Orders</router-link></a></li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'create-purchase-order' }"> Purchase Order</router-link></a>
+                          </li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'creat-sale-order' }"> Sales Order Items</router-link></a></li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'orders-by-customer' }"> WIP</router-link></a></li>
+
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> <router-link :to="{ name: 'list-ware-houses' }"> Warehouses</router-link></a></li>
+                        
                     </ul>
+                </li>
+
+
+                
+                <li>
+                    <a href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i>  <router-link :to="{ name: 'list-customers' }"> Customers </router-link></a></a>
+                </li>
+                
+
+                 <li>
+                    <a href="investigaciones/favoritas"><i class="fa fa-fw fa-user-plus"></i>  <router-link :to="{ name: 'list-suppliers' }"> Suppliers </router-link></a></a>
                 </li>
 
                 <li>
@@ -91,7 +110,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> <router-link :to="{ name: 'reports' }"> Reports</router-link></a></a>
+                    <a href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> <router-link :to="{ name: 'reports' }"> Reports</router-link></a>
+
+                    
+                </li>
+
+                <li>
+                    <a href="sugerencias"><i class="fa fa-fw fa-paper-plane-o"></i> <router-link :to="{ name: 'setup' }"> Settings</router-link></a>
 
                     
                 </li>
@@ -102,7 +127,14 @@
     </nav>
      <div id="page-wrapper">
         <div class="container-fluid">
-                <router-view></router-view>
+
+         <div v-if="$auth.ready()">
+            <router-view></router-view>
+        </div>
+
+        <div v-if="!$auth.ready()">
+            Loading ...
+        </div>
 
             <div class="row" id="main" >
                 
